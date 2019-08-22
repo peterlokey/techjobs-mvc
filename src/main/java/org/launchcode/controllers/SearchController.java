@@ -22,10 +22,15 @@ public class SearchController {
         return "search";
     }
 
-    // TODO #1 - Create handler to process search request and display results
+    // TODO search all categories doesn't return any results!!
     @RequestMapping(value ="results")
     public String searchResults(@RequestParam String searchTerm, @RequestParam String searchType, Model model){
+
         ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+
+        if (searchType.equals("all")){
+            jobs = JobData.findByValue(searchTerm);
+        }
 
         model.addAttribute("jobs", jobs);
         model.addAttribute("columns", ListController.columnChoices);
